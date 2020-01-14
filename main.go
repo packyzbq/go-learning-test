@@ -1,14 +1,14 @@
 package main
 
 import (
-	"github.com/go-learning-test/ioc"
+	"github.com/go-learning-test/example"
+	"log"
 	"net/http"
 )
 
-func MyGreeterHandler(w http.ResponseWriter, r *http.Request) {
-	ioc.Greet(w, "world")
-}
-
 func main() {
-	http.ListenAndServe(":5000", http.HandlerFunc(MyGreeterHandler))
+	server := &example.PlayerServer{Store: example.NewInMemoryPlayerStore()}
+	if err := http.ListenAndServe(":5000", server); err != nil {
+		log.Fatalf("could not listen on port 5000 %v", err)
+	}
 }
